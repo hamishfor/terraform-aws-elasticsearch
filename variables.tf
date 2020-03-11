@@ -1,24 +1,37 @@
 variable "namespace" {
   type        = string
-  description = "Namespace (e.g. `eg` or `cp`)"
   default     = ""
+  description = "Namespace, which could be your organization name or abbreviation, e.g. 'eg' or 'cp'"
+}
+
+variable "environment" {
+  type        = string
+  default     = ""
+  description = "Environment, e.g. 'prod', 'staging', 'dev', 'pre-prod', 'UAT'"
 }
 
 variable "stage" {
   type        = string
-  description = "Stage (e.g. `prod`, `dev`, `staging`)"
   default     = ""
+  description = "Stage, e.g. 'prod', 'staging', 'dev', OR 'source', 'build', 'test', 'deploy', 'release'"
 }
 
 variable "name" {
   type        = string
-  description = "Name of the application"
+  default     = ""
+  description = "Solution name, e.g. 'app' or 'jenkins'"
+}
+
+variable "enabled" {
+  type        = bool
+  default     = true
+  description = "Set to false to prevent the module from creating any resources"
 }
 
 variable "delimiter" {
   type        = string
   default     = "-"
-  description = "Delimiter to be used between `namespace`, `stage`, `name` and `attributes`"
+  description = "Delimiter to be used between `namespace`, `environment`, `stage`, `name` and `attributes`"
 }
 
 variable "attributes" {
@@ -27,16 +40,16 @@ variable "attributes" {
   description = "Additional attributes (e.g. `1`)"
 }
 
+variable "label_order" {
+  type        = list(string)
+  default     = []
+  description = "The naming order of the id output and Name tag"
+}
+
 variable "tags" {
   type        = map(string)
   default     = {}
-  description = "Additional tags (e.g. map(`BusinessUnit`,`XYZ`)"
-}
-
-variable "enabled" {
-  type        = bool
-  default     = true
-  description = "Set to false to prevent the module from creating any resources"
+  description = "Additional tags (e.g. `map('BusinessUnit','XYZ')`"
 }
 
 variable "security_groups" {
@@ -69,8 +82,8 @@ variable "dns_zone_id" {
 
 variable "elasticsearch_version" {
   type        = string
-  default     = "6.5"
-  description = "Version of Elasticsearch to deploy"
+  default     = "6.8"
+  description = "Version of Elasticsearch to deploy (_e.g._ `7.1`, `6.8`, `6.7`, `6.5`, `6.4`, `6.3`, `6.2`, `6.0`, `5.6`, `5.5`, `5.3`, `5.1`, `2.3`, `1.5`"
 }
 
 variable "instance_type" {
@@ -227,4 +240,10 @@ variable "node_to_node_encryption_enabled" {
   type        = bool
   default     = false
   description = "Whether to enable node-to-node encryption"
+}
+
+variable "iam_role_max_session_duration" {
+  type        = number
+  default     = 3600
+  description = "The maximum session duration (in seconds) for the user role. Can have a value from 1 hour to 12 hours"
 }
